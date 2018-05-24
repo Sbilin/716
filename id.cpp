@@ -62,18 +62,13 @@ void Prase_id::check_status ()
     map<string,struct Status>::iterator it;
     for(it = _data.begin(); it != _data.end(); it++)
     {
-        int length = it->first.length()-1;
-        if( it->first[length]!='p') 
+        if(it->second.sta != "ACTIVE")
         {
-            cout<<it->first<<endl;
-            if(it->second.sta != "ACTIVE")
-            {
-                _fault_status = it->second.sta ;
-                _fault_id = it->second.id;
-                _fault_name = it->first;
-                _backup_name = _fault_name + "-backup";
-                break;
-            }
+            _fault_status = it->second.sta ;
+            _fault_id = it->second.id;
+            _fault_name = it->first;
+            _backup_name = _fault_name + "-backup";
+            break;
         }
     }
 }
@@ -124,6 +119,9 @@ void Prase_id::restore_vm()
                     str = "nova resume "+_backup_name;
                     system(str.data());
                 }
+                
+                
+            
             }
         }
     }
